@@ -1,0 +1,52 @@
+﻿@page "/todo"
+
+<h3>Tarea (@todos.Count(todo => !todo.IsDone))</h3>
+
+    <ul>
+        @foreach (var todo in todos)
+        {
+            <li>
+                <input type="checkbox" @bind="todo.IsDone"/>
+                <input @bind="todo.Title"/>
+            </li>
+        }
+    </ul>
+
+    <input placeholder="Algo pa hacer" @bind="newTodo" />
+    <button @onclick="AddTodo">Add tarea</button>
+
+    <style>
+        button {
+            border: none; border-radius: 5px; background: brown; color: white; padding: 8px;
+        }
+
+        button:hover {
+            background: white;
+            border: 1px solid brown;
+            color: black;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        input {
+            padding: 8px;
+            text-align: center;
+            border-radius: 4px;
+        }
+    </style>
+
+@code {
+    private IList<TodoItem> todos = new List<TodoItem>();
+        private string newTodo;
+
+        private void AddTodo()
+    {
+         if (!string.IsNullOrWhiteSpace(newTodo))
+        {
+            todos.Add(new TodoItem { Title = newTodo });
+            newTodo = string.Empty;
+        }
+    }
+}
